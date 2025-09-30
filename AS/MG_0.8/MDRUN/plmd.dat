@@ -1,0 +1,29 @@
+MOLINFO STRUCTURE=init.pdb
+wat: GROUP ATOMS=@water
+# group with water oxygens
+ow:  GROUP ATOMS=@water REMOVE=@hydrogens
+# group with Mg ion
+mg:  GROUP ATOMS=13389
+# ace-C1
+c:  GROUP ATOMS=1
+
+# distance between Mg and ace
+dp:    DISTANCE ATOMS=mg,c
+# coordination number between Mg and water oxygens
+# WARNING: to speedup the simulation with used neighbor list here!
+# when doing analysis with the driver REMOVE `NLIST NL_CUTOFF=0.6 NL_STRIDE=20` !!!
+cn:    COORDINATION GROUPA=mg GROUPB=ow R_0=0.275 NLIST NL_CUTOFF=0.6 NL_STRIDE=20
+# this is the metadynamics
+metadP: METAD ...
+  ARG=dp,cn
+  SIGMA=0.05,0.1
+  HEIGHT=0.3
+  PACE=500
+  TEMP=310
+  BIASFACTOR=5
+  FILE=HILLS
+# very permissive boundaries to avoid unexpected stops:
+  GRID_MIN=0,0 GRID_MAX=6,9
+...
+
+PRINT ARG=dp,cn,metadP.bias FILE=COLVAR STRIDE=500

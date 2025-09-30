@@ -2,7 +2,7 @@
 
 This repository contains the well-tempered metadynamics data and postprocessing conducted in the article
 
-> "**The locking mechanism of human TRPV6 inhibition by intracellular magnesium**" by *Arthur Neuberger, Alexey Shalygin, Irina I. Veretenenko, Yury A. Trofimov, Thomas Gudermann, Vladimir Chubanov, Roman G. Efremov, Alexander I. Sobolevsky*.
+> Neuberger, A., Shalygin, A., Veretenenko, I. I., Trofimov, Y. A., Gudermann, T., Chubanov, V., Efremov, R. G., & Sobolevsky, A. I. (2025). **The locking mechanism of human TRPV6 inhibition by intracellular magnesium**. *Nature Communications*
 
 # Model system
 
@@ -11,13 +11,12 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 * **Protein system (`PS/` folder)** with site in magnesium-bound conformation
 * **Protein apo-sytem (`PS-apo/` folder)**, where the site was not adapted to Mg²⁺
 
-System composition:
+**System composition**:
 
-* S5-S6 helices bundle (residues 477-501 and 568-592) containing D489-D580 site
+* S5-S6 transmembrane helices bundle (residues 477-501 and 568-592) containing D489-D580 site
 * Mg²⁺ or Ca²⁺ constrained within a cylinder (radius = 0.9 nm)
 * Cl- contrion
 * 5550 water molecules in a 5×8×5 nm³ box
-
 
 ![Fig. S6a - PS-system](IMAGES/README/PS-system.png)
 
@@ -48,6 +47,8 @@ In this work, well-tempered metadynamics (WTMetaD) approach was implemented to c
 
 # WTMetaD postprocessing
 
+All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook `PS-systems-postprocessing.ipynb`. Its stored copies for PS and PS-apo systems can be found in `NOTEBOOKS/` folder.
+
 ## Scripts
 
 1. `BASHRC/plotstring.sh --> SCRIPTS/plotstring.py` - calculating **Minimum Free Energy Path (MFEP)** using String method
@@ -63,7 +64,7 @@ Where:
 
 - ΔGPMF: From potential of mean force (PMF) profiles
 
-  $\Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
+  $ \Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
 - ΔGV: Volume correction term
 
   $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
@@ -71,4 +72,26 @@ Where:
 
   $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}$
 
+## Dihedral sampling
+
+#TODO
+
 # Validation of simulation protocol
+
+## AS-system
+
+This system was constructed for validating force field parameters and simulation protocols against experimental binding free energies provided by [(Oliviera, 2020)](https://doi.org/10.1039/D0CP02987D).
+
+**System composition**:
+
+- Acetate ion
+- Cation (Mg²⁺ or Ca²⁺) constrained within a cylinder (radius = 0.7 nm)
+- Cl- counterion
+- 4460 water molecules in a 5×6×5 nm³ box
+
+![Fig. S8a - AS-system](IMAGES/README/AS-system.png)
+
+## WTMetaD protocol and postprocessing
+
+* The same input and output files as for PS systems are provided for AS-system (folders ` MDRUN/` and ` state_pdb/`)
+* All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook   `AS-systems-postprocessing.ipynb `

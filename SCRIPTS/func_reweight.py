@@ -11,55 +11,82 @@ from SCRIPTS.func_main import dG_calc
 matplotlib.rcParams['svg.fonttype'] = 'none'
 
 
-def reweight_2d(tstart, tfinal, COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN, FOLDER, plot=False): 
-    Ubias = -fes.T * (1-1/BIASF) #4/5 #-(1-1/5) * fes_2d.to_numpy()
+def reweight_plot_2d(COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN, FOLDER, 
+                DATA_FOLDER = 'Reweighting_data', FSAVE = True): 
+    Ubias = -fes.T * (1-1/BIASF)
     
-    WEIGHTS, ED = np.histogramdd(COLVAR[['dp', 'cn']].to_numpy()[tstart:tfinal], 
+    WEIGHTS, ED = np.histogramdd(COLVAR[['dp', 'cn']].to_numpy(), 
                                 bins = [Nbins_D, Nbins_CN],
                                 range = (Bonds_D, Bonds_CN),
                                 density=True, 
                                 )
-    if plot: 
-        fig, ax = plt.subplots()
-        sns.heatmap(WEIGHTS.T, cmap = cm.jet)
-        ax.invert_yaxis()
-        plt.show()
-    
+    weighted_avg = np.exp(1/kBT * (Ubias-np.max(Ubias))) * WEIGHTS
+    norm = np.sum(np.exp(1/kBT * (Ubias-np.max(Ubias))))
+
+    FES_2D = -kBT * np.log(weighted_avg/norm)
+    FES_2D[FES_2D==np.inf] = np.nanmax(FES_2D[FES_2D<np.inf])
+
+    # if plot: 
+    #     fig, ax = plt.subplots()
+    #     ax.set_box_aspect(1)
+    #     vmax = np.nanmax(FES_2D)//10 * 10
+    #     h = plt.contourf(dist[0], cn[:, 0], FES_2D.T, 
+    #                 cmap = 'jet', 
+    #                 origin = 'lower',
+    #                 levels = np.arange(0, vmax, 1), 
+    #                 )
+
+    #     plt.contour(dist[0], cn[:, 0], FES_2D.T, 
+    #                 colors = 'k', 
+    #                 linewidths=0.5,
+    #                 levels = np.arange(0, vmax, 10)
+    #                 )
+        
+    #     plt.xlim(0., 2)
+        
+    #     plt.colorbar(h, label="Free energy, kJ/mol")
+    #     plt.xlabel('d, nm')
+    #     plt.ylabel("CN")
+    #     plt.title(FOLDER)
+    #     plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/FES_2D_reweighting.svg', dpi=300, bbox_inches = 'tight')
+    #     plt.show()
+
     ####1D####
-    if plot:
-        fig, ax = plt.subplots(figsize = (5.5, 3))
 
     weighted_avg = np.sum(np.exp(1/kBT * (Ubias-np.max(Ubias))) * WEIGHTS, axis=1)
     weighted_avg[weighted_avg==0]=np.nan
     norm = np.sum(np.exp(1/kBT * (Ubias-np.max(Ubias))))
 
-    fes_dens = -kBT * np.log(weighted_avg/norm)
+    PMF = -kBT * np.log(weighted_avg/norm)
 
     is_bulk=np.int_((L_BULK_MIN < dist[0]) & (dist[0] < L_BULK_MAX))
-    shift = np.nansum(is_bulk*fes_dens)/np.nansum(is_bulk)
-    fes_dens-=shift
-    dW, dG_cyl, dG_489 = dG_calc(dist[0], fes_dens, BOND_MAX=0.4, R_RES=0.7, comp=True)
-
-    if plot:
-        plt.plot(dist[0], fes_dens, '.-', color = 'blue', label = f'dG={round(dG_489, 3)} kJ/mol')
-
-    ###
-    if plot:
-        #plt.ylim(-25, 25)
-        ax.grid(True, which='major', linestyle=  '-')
-        ax.grid(True, which='minor', linestyle=  '-', lw=0.2)
-
-        plt.xlim(0, 2)
-        plt.legend()
-        plt.xlabel('L, nm')
-        plt.ylabel('Free Energy, kJ/mol')
-        plt.savefig(f'{FOLDER}/reweighting_1d.svg', dpi=300, bbox_inches = 'tight')
-        plt.show()
+    shift = np.nansum(is_bulk*PMF)/np.nansum(is_bulk)
+    PMF-=shift
+    _, _, _, dG = dG_calc(dist[0], PMF, SYSTEM=FOLDER)
     
-    if plot: 
-        np.savetxt(f'{FOLDER}/prof_1D_reweight.dat', np.concatenate(([dist[0]], [fes_dens])).T)
+    if FSAVE: 
+        if not os.path.exists(f'{FOLDER}/{DATA_FOLDER}'):
+            os.mkdir(f'{FOLDER}/{DATA_FOLDER}')
+            
+        np.savetxt(f'{FOLDER}/{DATA_FOLDER}/fes_dens_2D.csv', FES_2D)
+        
+        np.savetxt(f'{FOLDER}/{DATA_FOLDER}/Prof_1D.dat', np.concatenate(([dist[0]], [PMF])).T)
 
-    return (dW, dG_cyl, dG_489)
+    # if plot:        
+    #     fig, ax = plt.subplots(figsize = (5.5, 3))
+    #     plt.plot(dist[0], PMF, '.-', color = 'blue', label = f'dG={round(dG0, 3)} kJ/mol')
+    #     ax.grid(True, which='major', linestyle=  '-')
+    #     ax.grid(True, which='minor', linestyle=  '-', lw=0.2)
+
+    #     plt.xlim(0, 2)
+    #     plt.legend()
+    #     plt.xlabel('L, nm')
+    #     plt.ylabel('Free Energy, kJ/mol')
+    #     plt.savefig(f'{FOLDER}/PMF_reweight.svg', dpi=300, bbox_inches = 'tight')
+    #     plt.show()
+
+
+    return (dG)
 
 def reweight_3d(COLVAR,
                 dist1, dist2, cn, fes, 

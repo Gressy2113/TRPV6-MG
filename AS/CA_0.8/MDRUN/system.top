@@ -1,0 +1,24 @@
+;Include forcefield parameters
+#include "indata/amber_JC2008.ff/forcefield.itp"
+#include "indata/ions_nb_sigma_eps.itp"
+
+
+;Include component topologies
+#include "indata/acetate.itp"
+#include "indata/cl.itp"
+#include "indata/ions.itp"
+#include "indata/amber_JC2008.ff/spce.itp"
+
+
+[ system ]
+; Name
+acetate_sc3_SOL_CL_MG
+
+[ molecules ]
+; Compound        #mols
+acetate_sc3 1
+SOL 4460
+CL 1
+CA_3s 1
+
+

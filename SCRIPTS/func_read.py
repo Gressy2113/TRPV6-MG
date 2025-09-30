@@ -36,7 +36,7 @@ def read_fes_2d(FOLDER, NAME = '30'):
 
     return (dist, cn, fes, Nbins_DP, Nbins_CN, Bonds_DP, Bonds_CN)
 
-def read_fes_3d(FOLDER, NAME='fes'):    
+def read_fes_3d(FOLDER, NAME='80'):    
     data = plumed.read_as_pandas(f"{FOLDER}/FES/{NAME}.dat")
 
     CV = ['d_489', 'd_580', 'cn']

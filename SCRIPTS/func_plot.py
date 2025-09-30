@@ -162,3 +162,33 @@ def plot_1D_L(FOLDER, PROF_FOLDER, IMAGE_FOLDER):
     plt.ylabel('Free Energy, kJ/mol')
     plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/reweighting_1D_L.svg', dpi=300, bbox_inches = 'tight')
     plt.show()
+    
+def plot_1D_ace(FOLDER, PROF_FOLDER, IMAGE_FOLDER):
+    
+    d1 = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/Prof_1D.dat.csv', sep = ' ', header = None).T.rename(columns={0:'d', 1:'G'})
+    
+    fig, ax = plt.subplots(figsize = (5.5, 3))
+    _, _, _, dG = dG_calc(d1['d'], d1['G'], FOLDER)
+    print(dG)
+    plt.plot(d1['d'], d1['G'], '.-', label = 'D489', color = 'blue', 
+             markeredgecolor = 'k', 
+             markeredgewidth = 0.5
+             )
+
+    plt.ylim(-25, 20)
+    ax.grid(True, which='major', linestyle=  '-')
+    ax.grid(True, which='minor', linestyle=  '-', lw=0.2)
+    ax.yaxis.set_major_locator(matplotlib.ticker.FixedLocator(np.arange(-100, 45, 10)))
+    ax.yaxis.set_minor_locator(matplotlib.ticker.FixedLocator(np.arange(-100, 45, 10/4)))
+
+    ax.xaxis.set_major_locator(matplotlib.ticker.FixedLocator(np.arange(0, 3, 0.5)))
+    ax.xaxis.set_minor_locator(matplotlib.ticker.FixedLocator(np.arange(0, 3, 0.1)))
+
+    plt.xlim(0, 2)#, 1.5)
+    plt.title(FOLDER)
+    plt.legend()
+    plt.xlabel('L, nm')
+    plt.ylabel('Free Energy, kJ/mol')
+    plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/reweighting_1D_L.svg', dpi=300, bbox_inches = 'tight')
+    plt.show()
+
