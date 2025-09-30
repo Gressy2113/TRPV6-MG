@@ -62,19 +62,26 @@ $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 
 Where:
 
-- ΔGPMF: From potential of mean force (PMF) profiles
+- $ΔG_{PMF}$: From potential of mean force (PMF) profiles
 
-  $ \Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
-- ΔGV: Volume correction term
+  $\Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
+
+- $ΔG_{V}$: Volume correction term
 
   $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
-- ΔGI: Ionic strength correction
+
+- $ΔG_{I}$: Ionic strength correction
 
   $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}$
 
-## Dihedral sampling
+## **Conformational sampling of dihedral angles**
 
-#TODO
+![Fig. S9a - Dihedral angles](IMAGES/README/Dihedral.png)
+
+To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles. 
+
+1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ1 (N-Cα-Cβ-Cγ) and χ2 (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residies were calculated in `Dihedral_MDfree.ipynb`
+2. Foa reweighting procedure was performed to project FES onto the χ1-χ2 plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are saved in folder `NOTEBOOKS/Dihedral`.
 
 # Validation of simulation protocol
 
