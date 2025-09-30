@@ -66,7 +66,7 @@ def plot_2D_L_CN(axis, FOLDER, COLVAR,
     plt.show()
 
 
-def plot_2D_L12(FOLDER, PROF_FOLDER, PROF_NAME, PROF_NPTS, PROF_STEPMAX, IMAGE_FOLDER):    
+def plot_2D_L12(FOLDER, PROF_FOLDER, PROF_NAME, PROF_NPTS, PROF_STEPMAX, IMAGE_FOLDER, color):    
     d1 = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/d1.csv', sep = ' ', header = None).T.rename(columns={0:'d', 1:'G'})
     d2 = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/d2.csv', sep = ' ', header = None).T.rename(columns={0:'d', 1:'G'})
     fes_2d = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/fes_dens_2D.csv', sep = ' ', header = None)
@@ -98,7 +98,7 @@ def plot_2D_L12(FOLDER, PROF_FOLDER, PROF_NAME, PROF_NPTS, PROF_STEPMAX, IMAGE_F
     
     if PROF_FOLDER: 
         prof = np.loadtxt(f'{FOLDER}/{PROF_FOLDER}/{PROF_NAME}_prof_path_npts{PROF_NPTS}_stepmax{PROF_STEPMAX}.csv')
-        _plot_prof(prof, color = colors[FOLDER.split('/')[1]], ylim = (-35, 25))
+        _plot_prof(prof, color = color, ylim = (-35, 25))
         plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/reweighting_path_1d.svg', dpi=300, bbox_inches = 'tight')
         plt.show()
 

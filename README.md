@@ -86,8 +86,8 @@ where $S_U$ is the cross section of the cation constraining cylinder with radius
 
 To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles.
 
-1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ1 (N-Cα-Cβ-Cγ) and χ2 (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residues were calculated in `Dihedral_MDfree.ipynb`
-2. The reweighting procedure was performed to project FES onto the χ1-χ2 plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are stored in the `NOTEBOOKS/Dihedral` folder.
+1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ₁ (N-Cα-Cβ-Cγ) and χ₂ (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residues were calculated in `Dihedral_MDfree.ipynb`
+2. The reweighting procedure was performed to project FES onto the χ₁-χ₂ plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are stored in the `NOTEBOOKS/Dihedral` folder.
 
 # 4. Validation of simulation protocol
 
