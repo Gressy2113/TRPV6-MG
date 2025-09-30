@@ -18,7 +18,9 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 * Cl- contrion
 * 5550 water molecules in a 5×8×5 nm³ box
 
-![Fig. S6a - PS-system](IMAGES/README/PS-system.png)
+![Fig. S6a - PS-system](IMAGES/README/PS-system.png =x250)
+
+<img src="IMAGES/README/PS-system.png" alt="Fig. S6a - PS-system" width="200"/>
 
 # WTMetaD simulation protocol
 
@@ -65,20 +67,19 @@ Where:
 - $ΔG_{PMF}$: From potential of mean force (PMF) profiles
 
   $\Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
-
 - $ΔG_{V}$: Volume correction term
 
   $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
-
 - $ΔG_{I}$: Ionic strength correction
 
   $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}$
 
 ## **Conformational sampling of dihedral angles**
 
-![Fig. S9a - Dihedral angles](IMAGES/README/Dihedral.png)
+<img src="IMAGES/README/Dihedral.png" alt="Fig.S9a - dihedral angles" width="200"/>
 
-To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles. 
+
+To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles.
 
 1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ1 (N-Cα-Cβ-Cγ) and χ2 (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residies were calculated in `Dihedral_MDfree.ipynb`
 2. Foa reweighting procedure was performed to project FES onto the χ1-χ2 plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are saved in folder `NOTEBOOKS/Dihedral`.
@@ -96,7 +97,9 @@ This system was constructed for validating force field parameters and simulation
 - Cl- counterion
 - 4460 water molecules in a 5×6×5 nm³ box
 
-![Fig. S8a - AS-system](IMAGES/README/AS-system.png)
+<img src="IMAGES/README/AS-system.png" alt="Fig. S8a - AS-system" width="200"/>
+
+![Fig. S8a - AS-system](IMAGES/README/AS-system.png=x250)
 
 ## WTMetaD protocol and postprocessing
 
