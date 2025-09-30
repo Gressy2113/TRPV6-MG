@@ -93,7 +93,7 @@ This system was constructed for validating force field parameters and simulation
 
 - Acetate ion
 - Cation (Mg²⁺ or Ca²⁺) constrained within a cylinder (radius $R_{cyl} = 0.7\ nm$)
-- Cl- counterion
+- Cl- contrion
 - 4460 water molecules in a 5×6×5 nm³ box
 
 <img src="IMAGES/README/AS-system.png" alt="Fig. S8a - AS-system" width="600"/>
@@ -101,4 +101,4 @@ This system was constructed for validating force field parameters and simulation
 ## WTMetaD protocol and postprocessing
 
 * The same input and output files as for PS systems are provided for AS-system (folders ` MDRUN/` and ` STATE_PDB/`)
-* All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook   `AS-systems-postprocessing.ipynb `
+* All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook `AS-systems-postprocessing.ipynb`.
