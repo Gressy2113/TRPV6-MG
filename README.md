@@ -62,15 +62,22 @@ $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 
 Where:
 
-- $ΔG_{PMF}$: From potential of mean force (PMF) profiles
+
+* $ΔG_{PMF}$: From potential of mean force (PMF) profiles
+
 
   $\Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
-- $ΔG_{V}$: Volume correction term
+
+
+* $ΔG_{V}$: Volume correction term
 
   $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
-- $ΔG_{I}$: Ionic strength correction (using the limiting Debye-Hückel equation)
+
+
+* $ΔG_{I}$: Ionic strength correction (using the limiting Debye-Hückel equation)
 
   $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}, \gamma_i = -Az_i \sqrt{I}$,
+
 
 where $S_U$ is the cross section of the cation constraining cylinder with radius $R_{cyl}$ provided by flat-bottom potential $U_{res}(r)$ with force constant $K_{res}=10^5 kJ mol^{−1}\ nm^{−2}$, $RT = 2.577 kJ/mol$, $V^0 = 1.661\ nm^3$, $l_u = 0.5\ nm$ – length of the unbound region of the PMF. $γ_i$ represents activity coefficients for cation-site complex and cation and site separately with ionic charge $z_i$, $A = 0.519\ M^{-1/2}$ in water solution at 310 K, I – ionic strength.
 
