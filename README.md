@@ -25,7 +25,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 In this work, WTMetaD approach in multiple-walker configuration was implemented to calculate the standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site (see Methods of the Article for details).
 
 * Input files for performing WTMetaD simulations can be found in folders `MDRUN/` within each system folder.
-* PDB files with 21 frames of WTMetaD trajectories for each walker(0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
+* PDB files with 21 frames of WTMetaD trajectories for each walker (0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
 
 ## 2.1. Force Field Parameters
 
@@ -61,7 +61,6 @@ All postprocessing steps, including the reweighting procedure and obtaining imag
 $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 
 Where:
-
 
 * $ΔG_{PMF}$: From potential of mean force (PMF) profiles
 
