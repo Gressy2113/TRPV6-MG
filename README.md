@@ -1,6 +1,6 @@
 # The locking ****mechanism**** of human TRPV6 **inhibition by intracellular magnesium**
 
-This repository contains the well-tempered metadynamics data and postprocessing conducted in the article
+This repository contains the well-tempered metadynamics (WTMetaD) data and postprocessing conducted in the article
 
 > Neuberger, A., Shalygin, A., Veretenenko, I. I., Trofimov, Y. A., Gudermann, T., Chubanov, V., Efremov, R. G., & Sobolevsky, A. I. (2025). **The locking mechanism of human TRPV6 inhibition by intracellular magnesium**. *Nature Communications*
 
@@ -14,7 +14,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 **System composition**:
 
 * S5-S6 transmembrane helices bundle (residues 477-501 and 568-592) containing D489-D580 site
-* Mg²⁺ or Ca²⁺ constrained within a cylinder (radius = 0.9 nm)
+* Mg²⁺ or Ca²⁺ constrained within a cylinder (radius $R_{cyl} = 0.9\ nm$)
 * Cl- contrion
 * 5550 water molecules in a 5×8×5 nm³ box
 
@@ -22,10 +22,10 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 
 # WTMetaD simulation protocol
 
-In this work, well-tempered metadynamics (WTMetaD) approach was implemented to calculate standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
+In this work, WTMetaD approach in multiple-walker configuration was implemented to calculate the standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
 
-> * Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder.
-> * PDB files with 21 frames of WTMetaD trajectories of each walker (0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
+* Input files for performing WTMetaD simulations can be found in folders `MDRUN/` within each system folder.
+* PDB files with 21 frames of WTMetaD trajectories for each walker(0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
 
 ## Force Field Parameters
 
@@ -47,7 +47,7 @@ In this work, well-tempered metadynamics (WTMetaD) approach was implemented to c
 
 # WTMetaD postprocessing
 
-All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook `PS-systems-postprocessing.ipynb`. Its stored copies for PS and PS-apo systems can be found in `NOTEBOOKS/` folder.
+All postprocessing steps, including the reweighting procedure and obtaining images for the article, were carried out using jupyter notebook `PS-systems-postprocessing.ipynb` (the stored copies for PS and PS-apo systems can be found in `NOTEBOOKS/` folder).
 
 ## Scripts
 
@@ -56,7 +56,7 @@ All postprocessing steps including reweighting procedure and obtaining images fo
 
 ## Standard binding free energy (ΔG⁰) calculation
 
-`SCRIPTS/func_main.py`
+ΔG⁰ calculation was carried out in `SCRIPTS/func_main.py` using the following formula (see Methods of the Article for details) :
 
 $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 
@@ -68,19 +68,20 @@ Where:
 - $ΔG_{V}$: Volume correction term
 
   $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
-- $ΔG_{I}$: Ionic strength correction
+- $ΔG_{I}$: Ionic strength correction (using the limiting Debye-Hückel equation)
 
-  $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}$
+  $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}, \gamma_i = -Az_i \sqrt{I}$,
+
+where $S_U$ is the cross section of the cation constraining cylinder with radius $R_{cyl}$ provided by flat-bottom potential $U_{res}(r)$ with force constant $K_{res}=10^5 kJ mol^{−1}\ nm^{−2}$, $RT = 2.577 kJ/mol$, $V^0 = 1.661\ nm^3$, $l_u = 0.5\ nm$ – length of the unbound region of the PMF. $γ_i$ represents activity coefficients for cation-site complex and cation and site separately with ionic charge $z_i$, $A = 0.519\ M^{-1/2}$ in water solution at 310 K, I – ionic strength.
 
 ## **Conformational sampling of dihedral angles**
 
 <img src="IMAGES/README/Dihedral.png" alt="Fig.S9a - dihedral angles" width="400"/>
 
-
 To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles.
 
-1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ1 (N-Cα-Cβ-Cγ) and χ2 (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residies were calculated in `Dihedral_MDfree.ipynb`
-2. Foa reweighting procedure was performed to project FES onto the χ1-χ2 plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are saved in folder `NOTEBOOKS/Dihedral`.
+1. To characterize the available conformational space in the PS system, we performed an unbiased MD simulation without any cation in the site (`PS/MD_free`, 5 μs). The distributions of the χ1 (N-Cα-Cβ-Cγ) and χ2 (Cα-Cβ-Cγ-OD1) dihedral angles D489 and D580 residues were calculated in `Dihedral_MDfree.ipynb`
+2. The reweighting procedure was performed to project FES onto the χ1-χ2 plane in `Dihedral_angles_reweighting.ipynb`. The results for the PS and PS-apo systems are stored in the `NOTEBOOKS/Dihedral` folder.
 
 # Validation of simulation protocol
 
@@ -91,7 +92,7 @@ This system was constructed for validating force field parameters and simulation
 **System composition**:
 
 - Acetate ion
-- Cation (Mg²⁺ or Ca²⁺) constrained within a cylinder (radius = 0.7 nm)
+- Cation (Mg²⁺ or Ca²⁺) constrained within a cylinder (radius $R_{cyl} = 0.7\ nm$)
 - Cl- counterion
 - 4460 water molecules in a 5×6×5 nm³ box
 
