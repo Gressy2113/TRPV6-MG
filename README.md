@@ -22,7 +22,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 
 # WTMetaD simulation protocol
 
-In this work, WTMetaD approach in multiple-walker configuration was implemented to calculate the standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
+In this work, WTMetaD approach in multiple-walker configuration was implemented to calculate the standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site (see Methods of the Article for details).
 
 * Input files for performing WTMetaD simulations can be found in folders `MDRUN/` within each system folder.
 * PDB files with 21 frames of WTMetaD trajectories for each walker(0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
@@ -47,7 +47,7 @@ In this work, WTMetaD approach in multiple-walker configuration was implemented 
 
 # WTMetaD postprocessing
 
-All postprocessing steps, including the reweighting procedure and obtaining images for the article, were carried out using jupyter notebook `PS-systems-postprocessing.ipynb` (the stored copies for PS and PS-apo systems can be found in `NOTEBOOKS/` folder).
+All postprocessing steps, including the reweighting procedure and obtaining images for the article, were carried out using jupyter notebook `PS-systems-postprocessing.ipynb` (the stored copies for PS and PS-apo systems can be found in `NOTEBOOKS/` folder). A list of packages and libraries needed to run notebooks is presented in `requirenments.txt`.
 
 ## Scripts
 
