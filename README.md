@@ -9,7 +9,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 * **Protein system (`PS/` folder)** with site in magnesium-bound conformation
 * **Protein apo-sytem (`PS-apo/` folder)**, where the site was not adapted to Mg²⁺
 
-System composition: 
+System composition:
 
 * S5-S6 helices bundle (residues 477-501 and 568-592) containing D489-D580 site
 * Mg²⁺ or Ca²⁺ constrained within a cylinder (radius = 0.9 nm)
@@ -20,9 +20,9 @@ System composition:
 
 # WTMetaD simulation protocol
 
-In this work, well-tempered metadynamics (WTMetaD) approach was implemented to calculate standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site. 
+In this work, well-tempered metadynamics (WTMetaD) approach was implemented to calculate standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
 
-> Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder. 
+> Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder.
 
 ## Force Field Parameters
 
@@ -44,8 +44,14 @@ In this work, well-tempered metadynamics (WTMetaD) approach was implemented to c
 
 # WTMetaD postprocessing
 
+## Scripts
+
+1. `BASHRC/plotstring.sh --> SCRIPTS/plotstring.py` - calculating **Minimum Free Energy Path (MFEP)** using String method
+2. **`BASHRC/block_prot.sh --> SCRIPTS/block_prot.py` - Block analysis** for checking convergence and error estimation of ΔG⁰ values
 
 ## Standard binding free energy (ΔG⁰) calculation
+
+`SCRIPTS/func_main.py`
 
 $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 
@@ -63,12 +69,5 @@ Where:
   $$
   \Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}
   $$
-
-## Analysis Methods
-
-1. **Minimum Free Energy Path (MFEP)**: Calculated using the string method
-2. **Block Analysis**: For error estimation of ΔG⁰ values
-3. **Dihedral Sampling**: Verification of complete conformational sampling
-
 
 # Validation of simulation protocol
