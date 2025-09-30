@@ -18,9 +18,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 * Cl- contrion
 * 5550 water molecules in a 5×8×5 nm³ box
 
-![Fig. S6a - PS-system](IMAGES/README/PS-system.png =x250)
-
-<img src="IMAGES/README/PS-system.png" alt="Fig. S6a - PS-system" width="200"/>
+<img src="IMAGES/README/PS-system.png" alt="Fig. S6a - PS-system" width="600"/>
 
 # WTMetaD simulation protocol
 
@@ -76,7 +74,7 @@ Where:
 
 ## **Conformational sampling of dihedral angles**
 
-<img src="IMAGES/README/Dihedral.png" alt="Fig.S9a - dihedral angles" width="200"/>
+<img src="IMAGES/README/Dihedral.png" alt="Fig.S9a - dihedral angles" width="400"/>
 
 
 To ensure the reliability of WTMetaD-simulations results, we examined conformational sampling of the D489 and D580 side-chain dihedral angles.
@@ -97,9 +95,7 @@ This system was constructed for validating force field parameters and simulation
 - Cl- counterion
 - 4460 water molecules in a 5×6×5 nm³ box
 
-<img src="IMAGES/README/AS-system.png" alt="Fig. S8a - AS-system" width="200"/>
-
-![Fig. S8a - AS-system](IMAGES/README/AS-system.png=x250)
+<img src="IMAGES/README/AS-system.png" alt="Fig. S8a - AS-system" width="600"/>
 
 ## WTMetaD protocol and postprocessing
 
