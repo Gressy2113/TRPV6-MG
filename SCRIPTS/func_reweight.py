@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import cm
-import seaborn as sns
 import matplotlib
 import os
 
@@ -11,7 +8,7 @@ from SCRIPTS.func_main import dG_calc
 matplotlib.rcParams['svg.fonttype'] = 'none'
 
 
-def reweight_plot_2d(COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN, FOLDER, 
+def reweight_2d(COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN, FOLDER, 
                 DATA_FOLDER = 'Reweighting_data', FSAVE = True): 
     Ubias = -fes.T * (1-1/BIASF)
     
@@ -26,31 +23,6 @@ def reweight_plot_2d(COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN
     FES_2D = -kBT * np.log(weighted_avg/norm)
     FES_2D[FES_2D==np.inf] = np.nanmax(FES_2D[FES_2D<np.inf])
 
-    # if plot: 
-    #     fig, ax = plt.subplots()
-    #     ax.set_box_aspect(1)
-    #     vmax = np.nanmax(FES_2D)//10 * 10
-    #     h = plt.contourf(dist[0], cn[:, 0], FES_2D.T, 
-    #                 cmap = 'jet', 
-    #                 origin = 'lower',
-    #                 levels = np.arange(0, vmax, 1), 
-    #                 )
-
-    #     plt.contour(dist[0], cn[:, 0], FES_2D.T, 
-    #                 colors = 'k', 
-    #                 linewidths=0.5,
-    #                 levels = np.arange(0, vmax, 10)
-    #                 )
-        
-    #     plt.xlim(0., 2)
-        
-    #     plt.colorbar(h, label="Free energy, kJ/mol")
-    #     plt.xlabel('d, nm')
-    #     plt.ylabel("CN")
-    #     plt.title(FOLDER)
-    #     plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/FES_2D_reweighting.svg', dpi=300, bbox_inches = 'tight')
-    #     plt.show()
-
     ####1D####
 
     weighted_avg = np.sum(np.exp(1/kBT * (Ubias-np.max(Ubias))) * WEIGHTS, axis=1)
@@ -62,31 +34,17 @@ def reweight_plot_2d(COLVAR, dist, cn, fes, Nbins_D, Nbins_CN, Bonds_D, Bonds_CN
     is_bulk=np.int_((L_BULK_MIN < dist[0]) & (dist[0] < L_BULK_MAX))
     shift = np.nansum(is_bulk*PMF)/np.nansum(is_bulk)
     PMF-=shift
-    _, _, _, dG = dG_calc(dist[0], PMF, SYSTEM=FOLDER)
+    dG_PMF, dG_R, dG_I, dG0 = dG_calc(dist[0], PMF, SYSTEM=FOLDER)
     
     if FSAVE: 
         if not os.path.exists(f'{FOLDER}/{DATA_FOLDER}'):
             os.mkdir(f'{FOLDER}/{DATA_FOLDER}')
             
         np.savetxt(f'{FOLDER}/{DATA_FOLDER}/fes_dens_2D.csv', FES_2D)
-        
-        np.savetxt(f'{FOLDER}/{DATA_FOLDER}/Prof_1D.dat', np.concatenate(([dist[0]], [PMF])).T)
+        np.savetxt(f'{FOLDER}/{DATA_FOLDER}/prof_1D.csv', np.concatenate(([dist[0]], [PMF])).T)
+        np.savetxt(f'{FOLDER}/{DATA_FOLDER}/cn.csv', cn[:, 0])
 
-    # if plot:        
-    #     fig, ax = plt.subplots(figsize = (5.5, 3))
-    #     plt.plot(dist[0], PMF, '.-', color = 'blue', label = f'dG={round(dG0, 3)} kJ/mol')
-    #     ax.grid(True, which='major', linestyle=  '-')
-    #     ax.grid(True, which='minor', linestyle=  '-', lw=0.2)
-
-    #     plt.xlim(0, 2)
-    #     plt.legend()
-    #     plt.xlabel('L, nm')
-    #     plt.ylabel('Free Energy, kJ/mol')
-    #     plt.savefig(f'{FOLDER}/PMF_reweight.svg', dpi=300, bbox_inches = 'tight')
-    #     plt.show()
-
-
-    return (dG)
+    return (dG_PMF, dG_R, dG_I, dG0)
 
 def reweight_3d(COLVAR,
                 dist1, dist2, cn, fes, 
@@ -141,4 +99,24 @@ def reweight_3d(COLVAR,
 
     ###
     return (dG0_489, dG0_580)
+
+
+def calc_dG_stride_reweight(COLVAR, dist, cn, fes, Nbins_DP, Nbins_CN, Bonds_DP, Bonds_CN, FOLDER):
+    N_blocks = np.arange(3, 100, 5)
+
+    dG0_mean = np.zeros_like(N_blocks).astype(float)
+    dG0_std = np.zeros_like(N_blocks).astype(float)
+
+    for i in range(len(N_blocks)): 
+        dG0_cur = []
+        dt = len(COLVAR)//N_blocks[i]
+        for j in range(0, len(COLVAR), dt):
+            _, _, _, dG0_ = reweight_2d(COLVAR[j:j+dt], dist, cn, fes, Nbins_DP, Nbins_CN, Bonds_DP, Bonds_CN, FOLDER, FSAVE=False)
+            if np.isnan(dG0_) == False and dG0_ < np.inf and dG0_ > -np.inf:
+                dG0_cur.append(dG0_)
+                
+        dG0_mean[i] = np.mean(dG0_cur)
+        dG0_std[i] = np.std(dG0_cur, ddof=1)/np.sqrt(len(dG0_cur)) #len(np.where(~np.isnan(dG_cur))[0])  #scipy.stats.sem(dG_cur, nan_policy='omit') #np.nanstd(dG_cur) / np.sqrt(len(dG_cur[~np.isnan(dG_cur)]))
+
+    return (N_blocks, dG0_mean, dG0_std)
 

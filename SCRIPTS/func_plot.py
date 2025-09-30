@@ -163,19 +163,54 @@ def plot_1D_L(FOLDER, PROF_FOLDER, IMAGE_FOLDER):
     plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/reweighting_1D_L.svg', dpi=300, bbox_inches = 'tight')
     plt.show()
     
-def plot_1D_ace(FOLDER, PROF_FOLDER, IMAGE_FOLDER):
     
-    d1 = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/Prof_1D.dat.csv', sep = ' ', header = None).T.rename(columns={0:'d', 1:'G'})
+def plot_2D_ace(FOLDER, PROF_FOLDER = 'Reweighting_data', IMAGE_FOLDER = 'Reweighting_images'): 
     
-    fig, ax = plt.subplots(figsize = (5.5, 3))
-    _, _, _, dG = dG_calc(d1['d'], d1['G'], FOLDER)
-    print(dG)
-    plt.plot(d1['d'], d1['G'], '.-', label = 'D489', color = 'blue', 
-             markeredgecolor = 'k', 
-             markeredgewidth = 0.5
-             )
+    if not os.path.exists(f'{FOLDER}/{IMAGE_FOLDER}'):
+        os.mkdir(f'{FOLDER}/{IMAGE_FOLDER}')
 
-    plt.ylim(-25, 20)
+    FES_1D = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/prof_1D.csv', sep = ' ', header = None).rename(columns={0:'d', 1:'G'})
+    CN = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/cn.csv', sep = ' ', header = None).rename(columns={0:'cn'})
+    FES_2D = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/fes_dens_2D.csv', sep = ' ', header = None)
+    
+    fig, ax = plt.subplots()
+    ax.set_box_aspect(1)
+    vmax = np.nanmax(FES_2D)//10 * 10
+    h = plt.contourf(FES_1D['d'], CN['cn'], FES_2D.T, 
+                cmap = 'jet', 
+                origin = 'lower',
+                levels = np.arange(0, vmax, 1), 
+                )
+
+    plt.contour(FES_1D['d'], CN['cn'], FES_2D.T, 
+                colors = 'k', 
+                linewidths=0.5,
+                levels = np.arange(0, vmax, 10)
+                )
+    
+    plt.xlim(0., 2)
+    
+    plt.colorbar(h, label="Free energy, kJ/mol")
+    plt.xlabel('L, nm')
+    plt.ylabel("CN")
+    plt.title(FOLDER)
+    plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/FES_2D_reweighting.svg', dpi=300, bbox_inches = 'tight')
+    plt.show()
+
+
+def plot_1D_ace(FOLDER, PROF_FOLDER, fig, ax, color):
+    
+    FES_1D = pd.read_csv(f'{FOLDER}/{PROF_FOLDER}/prof_1D.csv', sep = ' ', header = None).rename(columns={0:'d', 1:'G'})
+    
+    _, _, _, dG = dG_calc(FES_1D['d'], FES_1D['G'], FOLDER)
+    
+    if ax is None: 
+        fig, ax = plt.subplots(figsize = (5.5, 3))
+    plt.plot(FES_1D['d'], FES_1D['G'], '.-', lw = 1, color = color, label = FOLDER.split('/')[1])
+    plt.ylim(-15, 20)
+    plt.xlim(0., 2)
+
+
     ax.grid(True, which='major', linestyle=  '-')
     ax.grid(True, which='minor', linestyle=  '-', lw=0.2)
     ax.yaxis.set_major_locator(matplotlib.ticker.FixedLocator(np.arange(-100, 45, 10)))
@@ -184,11 +219,7 @@ def plot_1D_ace(FOLDER, PROF_FOLDER, IMAGE_FOLDER):
     ax.xaxis.set_major_locator(matplotlib.ticker.FixedLocator(np.arange(0, 3, 0.5)))
     ax.xaxis.set_minor_locator(matplotlib.ticker.FixedLocator(np.arange(0, 3, 0.1)))
 
-    plt.xlim(0, 2)#, 1.5)
-    plt.title(FOLDER)
-    plt.legend()
     plt.xlabel('L, nm')
     plt.ylabel('Free Energy, kJ/mol')
-    plt.savefig(f'{FOLDER}/{IMAGE_FOLDER}/reweighting_1D_L.svg', dpi=300, bbox_inches = 'tight')
-    plt.show()
 
+    
