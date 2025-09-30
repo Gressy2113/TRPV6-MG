@@ -25,7 +25,7 @@ In this study, we investigated magnesium (Mg²⁺) and calcium (Ca²⁺) binding
 In this work, well-tempered metadynamics (WTMetaD) approach was implemented to calculate standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
 
 > * Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder.
-> * PDB files with 21 frames of WTMetaD trajectories of each walker (0-2000 ns, step 100 ns) can be found in `state_pdb/` folder.
+> * PDB files with 21 frames of WTMetaD trajectories of each walker (0-2000 ns, step 100 ns) can be found in `STATE_PDB/` folder.
 
 ## Force Field Parameters
 
@@ -93,5 +93,5 @@ This system was constructed for validating force field parameters and simulation
 
 ## WTMetaD protocol and postprocessing
 
-* The same input and output files as for PS systems are provided for AS-system (folders ` MDRUN/` and ` state_pdb/`)
+* The same input and output files as for PS systems are provided for AS-system (folders ` MDRUN/` and ` STATE_PDB/`)
 * All postprocessing steps including reweighting procedure and obtaining images for the article was provided using jupyter notebook   `AS-systems-postprocessing.ipynb `
