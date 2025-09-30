@@ -1,6 +1,8 @@
 # The locking ****mechanism**** of human TRPV6 **inhibition by intracellular magnesium**
 
-This repository contains the well-tempered metadynamics data and postprocessing conducted in the article "**The locking mechanism of human TRPV6 inhibition by intracellular magnesium**" by *Arthur Neuberger, Alexey Shalygin, Irina I. Veretenenko, Yury A. Trofimov, Thomas Gudermann, Vladimir Chubanov, Roman G. Efremov, Alexander I. Sobolevsky*.
+This repository contains the well-tempered metadynamics data and postprocessing conducted in the article
+
+> "**The locking mechanism of human TRPV6 inhibition by intracellular magnesium**" by *Arthur Neuberger, Alexey Shalygin, Irina I. Veretenenko, Yury A. Trofimov, Thomas Gudermann, Vladimir Chubanov, Roman G. Efremov, Alexander I. Sobolevsky*.
 
 # Model system
 
@@ -16,13 +18,15 @@ System composition:
 * Cl- contrion
 * 5550 water molecules in a 5×8×5 nm³ box
 
-![1751271975580](https://vscode-remote+ssh-002dremote-002bkate.vscode-resource.vscode-cdn.net/home/veretenenko/TRPV6-Mg/TRPV6-MG/IMAGES/README/PS-system.png)
+
+![Fig. S6a - PS-system](IMAGES/README/PS-system.png)
 
 # WTMetaD simulation protocol
 
 In this work, well-tempered metadynamics (WTMetaD) approach was implemented to calculate standard binding free energy of Mg²⁺ or Ca²⁺ binding to D489-D580 site.
 
-> Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder.
+> * Input files for performing WTMetaD simuations can be found in folders `MDRUN/` in each system folder.
+> * PDB files with 21 frames of WTMetaD trajectories of each walker (0-2000 ns, step 100 ns) can be found in `state_pdb/` folder.
 
 ## Force Field Parameters
 
@@ -47,7 +51,7 @@ In this work, well-tempered metadynamics (WTMetaD) approach was implemented to c
 ## Scripts
 
 1. `BASHRC/plotstring.sh --> SCRIPTS/plotstring.py` - calculating **Minimum Free Energy Path (MFEP)** using String method
-2. **`BASHRC/block_prot.sh --> SCRIPTS/block_prot.py` - Block analysis** for checking convergence and error estimation of ΔG⁰ values
+2. `BASHRC/block_prot.sh --> SCRIPTS/block_prot.py` - **Block analysis** for checking convergence and error estimation of ΔG⁰ values
 
 ## Standard binding free energy (ΔG⁰) calculation
 
@@ -58,16 +62,13 @@ $\Delta G^0 = \Delta G_{PMF} + \Delta G_{V} + \Delta G_I$
 Where:
 
 - ΔGPMF: From potential of mean force (PMF) profiles
-  $$
-  \Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})
-  $$
+
+  $\Delta G_{PMF}=RT\ln(\frac{\int_{unbound}{e^{-PMF(x_1)/RT}}dx_1}{\int_{bound}{e^{-PMF(x_1)/RT}}dx_1})$
 - ΔGV: Volume correction term
-  $$
-  \Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)
-  $$
+
+  $\Delta G_V=-RT\ln(\frac{l_uS_u}{V^0}), S_u = \pi R_{cyl}^2+2\pi \left(\sqrt{\frac{\pi RT}{2K_{res}}}R_{cyl}^2 + \frac{RT}{K_{res}} \right)$
 - ΔGI: Ionic strength correction
-  $$
-  \Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}
-  $$
+
+  $\Delta G_I = RT \ln{\frac{\gamma_{cation}\gamma_{site}}{\gamma_{cation-site}}}$
 
 # Validation of simulation protocol
